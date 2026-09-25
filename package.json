@@ -1,0 +1,19 @@
+{
+  "name": "touchstone",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Touchstone UI prototype: Owner App, Expert Desk, Command Center, Investor Portal and shared outputs.",
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev -w @touchstone/web",
+    "build": "npm run build -w @touchstone/web",
+    "typecheck": "npm run typecheck -w @touchstone/web",
+    "preview": "npm run preview -w @touchstone/web",
+    "check:words": "node scripts/banned-words.mjs"
+  },
+  "devDependencies": {
+    "playwright-core": "^1.63.0"
+  }
+}

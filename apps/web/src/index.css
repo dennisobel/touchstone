@@ -1,0 +1,489 @@
+@import "tailwindcss";
+@import "@fontsource-variable/inter";
+@import "@fontsource-variable/source-serif-4";
+@import "@fontsource/ibm-plex-mono/400.css";
+@import "@fontsource/ibm-plex-mono/500.css";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ------------------------------------------------------------------
+   Design tokens (UI PRD §5). Light values on :root, dark on .dark.
+   ------------------------------------------------------------------ */
+:root {
+  --canvas: #f5f7f9;
+  --surface: #ffffff;
+  --surface-raised: #ffffff;
+  --surface-sunken: #eef1f4;
+  --border: #d5dce2;
+  --border-strong: #7d8a98;
+  --text: #0f1419;
+  --text-muted: #52606f;
+  --primary: #1f4e8c;
+  --primary-hover: #173c6e;
+  --primary-tint: #e3ecf7;
+  --on-primary: #ffffff;
+  --brand: #b4532a;
+
+  /* Claim statuses: foreground / fill / border */
+  --st-verified: #1e6b4a;
+  --st-verified-fill: #e3f2ea;
+  --st-verified-border: #9fd0b6;
+  --st-review: #8a5a00;
+  --st-review-fill: #fff3d6;
+  --st-review-border: #f0c96a;
+  --st-critical: #a3242f;
+  --st-critical-fill: #fbe4e6;
+  --st-critical-border: #f0a8af;
+  --st-disputed: #6b3fa0;
+  --st-disputed-fill: #efe7f8;
+  --st-disputed-border: #c9b3e6;
+  --st-stale: #52606f;
+  --st-stale-fill: #eef1f4;
+  --st-stale-border: #c3cbd3;
+  --st-unverifiable: #3a4654;
+  --st-unverifiable-fill: #eef1f4;
+  --st-unverifiable-border: #7d8a98;
+  --st-declared: #3a4654;
+  --st-declared-fill: transparent;
+  --st-declared-border: #7d8a98;
+
+  /* Red-flag severity shapes */
+  --sev-garnet: #a3242f;
+  --sev-ochre: #9a6700;
+  --sev-graphite: #52606f;
+
+  /* Chart series, fixed order; never a status colour */
+  --chart-1: #2a78d6;
+  --chart-2: #eb6834;
+  --chart-3: #1baf7a;
+  --chart-4: #eda100;
+  --chart-5: #e87ba4;
+  --chart-6: #008300;
+  --chart-7: #4a3aa7;
+  --chart-8: #e34948;
+
+  --e1: 0 1px 2px rgb(15 20 25 / 0.05), 0 1px 3px rgb(15 20 25 / 0.04);
+  --e2: 0 6px 16px rgb(15 20 25 / 0.08), 0 2px 4px rgb(15 20 25 / 0.05);
+  --e3: 0 16px 40px rgb(15 20 25 / 0.16), 0 4px 10px rgb(15 20 25 / 0.06);
+
+  --stripe: rgb(82 96 111 / 0.14);
+  --scrim: rgb(15 20 25 / 0.4);
+  --map-land: #e9ede6;
+  --map-water: #b9d3e6;
+
+  /* Density (phones: always touch-sized). Desktop values applied from 768 px below. */
+  --ctl-h: 44px;
+  --row-h: 52px;
+  --target: 44px;
+  --body-size: 16px;
+  --body-lh: 24px;
+  --meta-size: 13px;
+  --meta-lh: 18px;
+
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+  --tabbar-h: 64px;
+  --appbar-h: 56px;
+
+  color-scheme: light;
+}
+
+.dark {
+  --canvas: #0f1419;
+  --surface: #1a2129;
+  --surface-raised: #27313c;
+  --surface-sunken: #141a21;
+  --border: #3a4654;
+  --border-strong: #6b7a8a;
+  --text: #e9edf1;
+  --text-muted: #b4bec8;
+  --primary: #8fb3e8;
+  --primary-hover: #b3cbef;
+  --primary-tint: rgb(143 179 232 / 0.16);
+  --on-primary: #0f1419;
+  --brand: #e08a62;
+
+  --st-verified: #7fd1a8;
+  --st-review: #f2c063;
+  --st-critical: #f28b94;
+  --st-disputed: #c4a3ee;
+  --st-stale: #a9b4bf;
+  --st-unverifiable: #d5dce2;
+  --st-declared: #d5dce2;
+  --st-verified-fill: color-mix(in srgb, var(--st-verified) 14%, transparent);
+  --st-review-fill: color-mix(in srgb, var(--st-review) 14%, transparent);
+  --st-critical-fill: color-mix(in srgb, var(--st-critical) 14%, transparent);
+  --st-disputed-fill: color-mix(in srgb, var(--st-disputed) 14%, transparent);
+  --st-stale-fill: color-mix(in srgb, var(--st-stale) 14%, transparent);
+  --st-unverifiable-fill: color-mix(in srgb, var(--st-unverifiable) 10%, transparent);
+  --st-verified-border: color-mix(in srgb, var(--st-verified) 45%, transparent);
+  --st-review-border: color-mix(in srgb, var(--st-review) 45%, transparent);
+  --st-critical-border: color-mix(in srgb, var(--st-critical) 45%, transparent);
+  --st-disputed-border: color-mix(in srgb, var(--st-disputed) 45%, transparent);
+  --st-stale-border: color-mix(in srgb, var(--st-stale) 45%, transparent);
+  --st-unverifiable-border: #6b7a8a;
+  --st-declared-border: #6b7a8a;
+
+  --sev-garnet: #f28b94;
+  --sev-ochre: #f2c063;
+  --sev-graphite: #a9b4bf;
+
+  --chart-1: #3987e5;
+  --chart-2: #d95926;
+  --chart-3: #199e70;
+  --chart-4: #c98500;
+  --chart-5: #d55181;
+  --chart-6: #008300;
+  --chart-7: #9085e9;
+  --chart-8: #e66767;
+
+  --e1: 0 1px 2px rgb(0 0 0 / 0.4);
+  --e2: 0 8px 20px rgb(0 0 0 / 0.45), 0 2px 4px rgb(0 0 0 / 0.3);
+  --e3: 0 20px 48px rgb(0 0 0 / 0.55), 0 4px 10px rgb(0 0 0 / 0.35);
+
+  --stripe: rgb(169 180 191 / 0.16);
+  --scrim: rgb(0 0 0 / 0.6);
+  --map-land: #1c242c;
+  --map-water: #1d3a55;
+
+  color-scheme: dark;
+}
+
+/* Density modes from 768 px (UI PRD §5). Phones keep touch sizes regardless of app. */
+@media (min-width: 768px) {
+  [data-density="compact"] {
+    --ctl-h: 32px;
+    --row-h: 32px;
+    --target: 32px;
+    --body-size: 14px;
+    --body-lh: 20px;
+    --meta-size: 12px;
+    --meta-lh: 16px;
+  }
+  [data-density="comfortable"] {
+    --ctl-h: 40px;
+    --row-h: 44px;
+    --target: 40px;
+    --body-size: 16px;
+    --body-lh: 24px;
+  }
+}
+[data-density="touch"] {
+  --ctl-h: 48px;
+  --row-h: 56px;
+  --target: 48px;
+  --body-size: 17px;
+  --body-lh: 26px;
+}
+[data-density="field"] {
+  --ctl-h: 56px;
+  --row-h: 64px;
+  --target: 56px;
+  --body-size: 17px;
+  --body-lh: 26px;
+}
+
+@theme inline {
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-raised: var(--surface-raised);
+  --color-sunken: var(--surface-sunken);
+  --color-line: var(--border);
+  --color-line-strong: var(--border-strong);
+  --color-fg: var(--text);
+  --color-muted: var(--text-muted);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-tint: var(--primary-tint);
+  --color-on-primary: var(--on-primary);
+  --color-brand: var(--brand);
+  --color-scrim: var(--scrim);
+
+  --color-verified: var(--st-verified);
+  --color-verified-fill: var(--st-verified-fill);
+  --color-verified-border: var(--st-verified-border);
+  --color-review: var(--st-review);
+  --color-review-fill: var(--st-review-fill);
+  --color-review-border: var(--st-review-border);
+  --color-critical: var(--st-critical);
+  --color-critical-fill: var(--st-critical-fill);
+  --color-critical-border: var(--st-critical-border);
+  --color-disputed: var(--st-disputed);
+  --color-disputed-fill: var(--st-disputed-fill);
+  --color-disputed-border: var(--st-disputed-border);
+  --color-stale: var(--st-stale);
+  --color-stale-fill: var(--st-stale-fill);
+  --color-stale-border: var(--st-stale-border);
+  --color-unverifiable: var(--st-unverifiable);
+  --color-unverifiable-fill: var(--st-unverifiable-fill);
+  --color-unverifiable-border: var(--st-unverifiable-border);
+  --color-declared: var(--st-declared);
+  --color-declared-border: var(--st-declared-border);
+
+  --color-garnet: var(--sev-garnet);
+  --color-ochre: var(--sev-ochre);
+  --color-graphite: var(--sev-graphite);
+
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-chart-6: var(--chart-6);
+  --color-chart-7: var(--chart-7);
+  --color-chart-8: var(--chart-8);
+
+  --shadow-e1: var(--e1);
+  --shadow-e2: var(--e2);
+  --shadow-e3: var(--e3);
+
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-serif: "Source Serif 4 Variable", Georgia, "Times New Roman", serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --text-passport: 30px;
+  --text-passport--line-height: 36px;
+  --text-passport-sm: 24px;
+  --text-passport-sm--line-height: 30px;
+  --text-h1: 24px;
+  --text-h1--line-height: 32px;
+  --text-h2: 20px;
+  --text-h2--line-height: 28px;
+  --text-h3: 16px;
+  --text-h3--line-height: 24px;
+  --text-body: var(--body-size);
+  --text-body--line-height: var(--body-lh);
+  --text-meta: var(--meta-size);
+  --text-meta--line-height: var(--meta-lh);
+  --text-micro: 12px;
+  --text-micro--line-height: 16px;
+
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ------------------------------------------------------------------ */
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    background: var(--canvas);
+  }
+  body {
+    margin: 0;
+    min-height: 100dvh;
+    background: var(--canvas);
+    color: var(--text);
+    font-family: var(--font-sans);
+    font-size: var(--body-size);
+    line-height: var(--body-lh);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-tap-highlight-color: transparent;
+    overscroll-behavior-y: none;
+    font-feature-settings: "cv11";
+  }
+  button,
+  a,
+  [role="button"],
+  label,
+  summary {
+    touch-action: manipulation;
+  }
+  button {
+    cursor: pointer;
+  }
+  button:disabled {
+    cursor: not-allowed;
+  }
+  :focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+  }
+  /* iOS zooms into inputs below 16 px, so phones always get 16 px form text. */
+  input,
+  select,
+  textarea {
+    font-size: max(16px, var(--body-size));
+  }
+  @media (min-width: 768px) {
+    input,
+    select,
+    textarea {
+      font-size: var(--body-size);
+    }
+  }
+  ::selection {
+    background: var(--primary-tint);
+  }
+  table {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@layer utilities {
+  .stale-stripes {
+    background-image: repeating-linear-gradient(135deg, transparent 0 5px, var(--stripe) 5px 8px);
+  }
+  .pressable {
+    transition: transform 120ms var(--ease-out-soft), background-color 150ms ease-out;
+  }
+  .pressable:active:not(:disabled) {
+    transform: scale(0.97);
+  }
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .scroll-touch {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+  }
+  .pt-safe {
+    padding-top: var(--safe-top);
+  }
+  .pb-safe {
+    padding-bottom: var(--safe-bottom);
+  }
+  .h-ctl {
+    height: var(--ctl-h);
+  }
+  .min-h-ctl {
+    min-height: var(--ctl-h);
+  }
+  .h-row {
+    height: var(--row-h);
+  }
+  .min-h-row {
+    min-height: var(--row-h);
+  }
+  .min-h-target {
+    min-height: var(--target);
+  }
+  .size-target {
+    width: var(--target);
+    height: var(--target);
+  }
+  .glass {
+    background: color-mix(in srgb, var(--surface) 86%, transparent);
+    -webkit-backdrop-filter: saturate(1.6) blur(16px);
+    backdrop-filter: saturate(1.6) blur(16px);
+  }
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* View transitions between routes: a quick cross-fade with a small rise. */
+@keyframes vt-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+@keyframes vt-out {
+  to {
+    opacity: 0;
+  }
+}
+::view-transition-old(root) {
+  animation: 120ms ease-out both vt-out;
+}
+::view-transition-new(root) {
+  animation: 180ms var(--ease-out-soft) both vt-in;
+}
+::view-transition-group(tabbar),
+::view-transition-group(appbar),
+::view-transition-group(sidebar) {
+  animation: none;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(28px);
+  }
+}
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+@keyframes pulse-dot {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+.animate-fade-in {
+  animation: fade-in 180ms ease-out both;
+}
+.animate-rise-in {
+  animation: rise-in 200ms var(--ease-out-soft) both;
+}
+.animate-pulse-dot {
+  animation: pulse-dot 1.6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
+
+/* MapLibre: keep controls on-token */
+.maplibregl-ctrl-group {
+  border-radius: 8px !important;
+  box-shadow: var(--e2) !important;
+  background: var(--surface) !important;
+}
+.maplibregl-ctrl-group button + button {
+  border-top-color: var(--border) !important;
+}
+.dark .maplibregl-ctrl-group button .maplibregl-ctrl-icon {
+  filter: invert(1);
+}
+.maplibregl-ctrl-attrib {
+  font-size: 11px;
+}
+
+@media print {
+  @page {
+    margin: 14mm 14mm 16mm;
+  }
+  html,
+  body {
+    background: #fff !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+}
