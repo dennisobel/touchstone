@@ -3,7 +3,7 @@
 
 [build]
   command = "npm run build"
-  publish = "dist"
+  publish = "apps/web/dist"
   # Use Node 20 for consistent builds
   environment = { NODE_VERSION = "20" }
 
